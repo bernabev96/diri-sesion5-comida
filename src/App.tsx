@@ -2,6 +2,7 @@ import { useState, lazy, Suspense } from 'react'
 import './App.css'
 import type { MenuItem } from './entities/entities'
 import FoodsOrder from './components/FoodsOrder';
+import { foodItemsContext } from './context/foodItemsContext';
 
 const Foods = lazy(() => import('./components/Foods'));
 
@@ -47,50 +48,42 @@ function App() {
     setSelectedFood(food);
   }
 
-  const handleQuantityUpdated = (id: number, orderedQty: number) => {
-    setMenuItems(prev => prev.map(item => {
-      if(item.id !== id){
-        return item;
-      }
-      const newQty = Math.max(0, item.quantity - orderedQty);
-      return { ...item, quantity: newQty}
-    }));
-  }
-
   const handleReturnToMenu = () => {
     setSelectedFood(null);
     setIsChooseFoodPage(false);
   }
 
   return (
-    <div className="App">
-      <button className='toggleButton' onClick={() => {setIsChooseFoodPage(!isChooseFoodPage); setSelectedFood(null);}}>{isChooseFoodPage ? 'Disponibilidad' : 'Pedir Comida'}</button>
-      <h3 className='title'>Comida rápida online</h3>
-      {!isChooseFoodPage && (
-        <>
-          <h4 className='subTitle'>Menús</h4>
-          <ul className='ulApp'>
-          {menuItems.map((item) => {
-            return (
-              <li key={item.id} className='liApp'>
-                <p className='stockName'>{item.name}</p>
-                <p className='stockQty'>#{item.quantity}</p>
-              </li>
-            );
-          })}
-          </ul>
-        </>
-      )}
-      {isChooseFoodPage && (
-        <Suspense fallback={<div>Cargando carta...</div>}>
-          {!selectedFood ? (
-            <Foods foodItem={menuItems} onFoodSelected={handleFoodSelected} />
-          ) : (
-            <FoodsOrder food={selectedFood} onQuantityUpdated={handleQuantityUpdated} onReturnToMenu={handleReturnToMenu} />
-          )}
-        </Suspense>
-      )}
-    </div>
+    <foodItemsContext.Provider value={{menuItems, setMenuItems}}>
+      <div className="App">
+        <button className='toggleButton' onClick={() => {setIsChooseFoodPage(!isChooseFoodPage); setSelectedFood(null);}}>{isChooseFoodPage ? 'Disponibilidad' : 'Pedir Comida'}</button>
+        <h3 className='title'>Comida rápida online</h3>
+        {!isChooseFoodPage && (
+          <>
+            <h4 className='subTitle'>Menús</h4>
+            <ul className='ulApp'>
+            {menuItems.map((item) => {
+              return (
+                <li key={item.id} className='liApp'>
+                  <p className='stockName'>{item.name}</p>
+                  <p className='stockQty'>#{item.quantity}</p>
+                </li>
+              );
+            })}
+            </ul>
+          </>
+        )}
+        {isChooseFoodPage && (
+          <Suspense fallback={<div>Cargando carta...</div>}>
+            {!selectedFood ? (
+              <Foods foodItem={menuItems} onFoodSelected={handleFoodSelected} />
+            ) : (
+              <FoodsOrder food={selectedFood}  onReturnToMenu={handleReturnToMenu} />
+            )}
+          </Suspense>
+        )}
+      </div>
+    </foodItemsContext.Provider>
   );
 }
 

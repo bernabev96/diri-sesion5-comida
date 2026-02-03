@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import type { MenuItem } from '../entities/entities';
+import { foodItemsContext } from "../context/foodItemsContext";
 
 interface FoodsOrderProps {
     food: MenuItem;
-    onQuantityUpdated: (id: number, quantity: number) => void;
     onReturnToMenu: () => void;
 }
 
@@ -14,6 +14,12 @@ function FoodOrder(props: FoodsOrderProps) {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const qtyNumber = quantity === '' ? 0 : Number(quantity);
+
+    const context = useContext(foodItemsContext);
+    if(!context){
+        throw new Error("FoodOder debe usarse dentro de foodItemsContext.Provider");
+    }
+    const { setMenuItems } = context;
 
     useEffect(() => {
         setToTalPrice(qtyNumber * props.food.price);
@@ -27,7 +33,15 @@ function FoodOrder(props: FoodsOrderProps) {
         const finalQty = Math.max(1, Math.min(props.food.quantity, qtyNumber));
         setIsConfirmed(true);
         setTimeout(() => {
-            props.onQuantityUpdated(props.food.id, finalQty);
+            setMenuItems(prev =>
+                prev.map(item => {
+                    if(item.id !== props.food.id){
+                        return item;
+                    }
+                    const newQty = Math.max(0, item.quantity - finalQty);
+                    return {...item, quantity: newQty};
+                })
+            );
             props.onReturnToMenu();
         }, 2000);
     };
