@@ -55,8 +55,8 @@ function FoodOrder(props: FoodsOrderProps) {
             <p className="px-4 pt-3 text-slate-600">{props.food.desc}</p>
             <p className="px-4 py-2 text-center text-xl font-extrabold text-red-600">Total: {totalPrice}€</p>
             <div className="px-4 py-2 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-                <label className="sm:w-24 font-semibold text-slate-700">Cantidad</label>
-                <input className="flex-1 rounded-md border border-slate-300 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-yellow-400" type="number" min={1} max={props.food.quantity} value={quantity} onChange={(e) => {
+                <label htmlFor="quantity" className="sm:w-24 font-semibold text-slate-700">Cantidad</label>
+                <input id="quantity" className="flex-1 rounded-md border border-slate-300 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-yellow-400" type="number" min={1} max={props.food.quantity} value={quantity} onChange={(e) => {
                     setQuantity(e.target.value);
                     setIsConfirmed(false);
                 }} onBlur={() => {
@@ -69,12 +69,12 @@ function FoodOrder(props: FoodsOrderProps) {
                 }}/>
             </div>
             <div className="px-4 py-2 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-                <label className="sm:w-24 font-semibold text-slate-700">Nombre</label>
-                <input className="flex-1 rounded-md border border-slate-300 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-yellow-400" type="text" value={name} onChange={e => {setName(e.target.value); setError('');}} placeholder="Tu nombre"/>
+                <label htmlFor="name" className="sm:w-24 font-semibold text-slate-700">Nombre</label>
+                <input id="name" className="flex-1 rounded-md border border-slate-300 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-yellow-400" type="text" value={name} onChange={e => {setName(e.target.value); setError('');}} placeholder="Tu nombre"/>
             </div>
             <div className="px-4 py-2 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-                <label className="sm:w-24 font-semibold text-slate-700">Teléfono</label>
-                <input className="flex-1 rounded-md border border-slate-300 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-yellow-400" type="tel" value={phone} onChange={e => {setPhone(e.target.value); setError('');}} placeholder="Tu teléfono"/>
+                <label htmlFor="phone" className="sm:w-24 font-semibold text-slate-700">Teléfono</label>
+                <input id="phone" className="flex-1 rounded-md border border-slate-300 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-yellow-400" type="tel" value={phone} onChange={e => {setPhone(e.target.value); setError('');}} placeholder="Tu teléfono"/>
             </div>
             <div className="flex flex-wrap justify-center gap-3 p-4">
                 <button className="cursor-pointer rounded-md bg-red-600 px-4 py-2 font-bold text-white hover:bg-red-700 transition disabled:opacity-50" onClick={handleSendOrder} disabled={qtyNumber < 1}>Enviar pedido</button>

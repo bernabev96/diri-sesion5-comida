@@ -20,4 +20,17 @@ export default defineConfig([
       globals: globals.browser,
     },
   },
+  {
+    files: [
+      '**/*.{test,spec}.{ts,tsx}',
+      '**/__tests__/**/*.{ts,tsx}',
+      'src/_tests_/**/*.{ts,tsx}',
+    ],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.vitest,
+      },
+    },
+  },
 ])
