@@ -51,7 +51,7 @@ function FoodOrder(props: FoodsOrderProps) {
     return (
         <div className="mx-auto mt-4 max-w-md overflow-hidden rounded-xl border border-slate-200 bg-white">
             <h3 className="text-xl font-bold text-slate-800 p-4 text-center">Pedido: {props.food.name}</h3>
-            <img className="h-56 w-full object-cover" src={`/images/${props.food.image}`} alt={props.food.name} />
+            <img className="h-56 w-full object-cover" src={`${import.meta.env.BASE_URL}images/${props.food.image}`} alt={props.food.name} />
             <p className="px-4 pt-3 text-slate-600">{props.food.desc}</p>
             <p className="px-4 py-2 text-center text-xl font-extrabold text-red-600">Total: {totalPrice}€</p>
             <div className="px-4 py-2 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">

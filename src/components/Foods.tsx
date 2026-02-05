@@ -14,7 +14,7 @@ function Foods(props: FoodsProps) {
                 {props.foodItem.map((item) => {
                     return (
                         <li key={item.id} className='cursor-pointer overflow-hidden rounded-xl border border-slate-200 bg-white hover:shadow-lg transition' onClick={() => props.onFoodSelected(item)} role='button' tabIndex={0}>
-                            <img className='h-48 w-full object-cover' src={`/images/${item.image}`} alt={item.name} />
+                            <img className='h-48 w-full object-cover' src={`${import.meta.env.BASE_URL}images/${item.image}`} alt={item.name} />
                             <div className='p-4 text-left'>
                                 <p className='font-bold text-slate-800'>{item.name}</p>
                                 <p className='text-sm text-slate-500 my-1'>{item.desc}</p>
