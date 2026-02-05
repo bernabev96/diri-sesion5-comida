@@ -31,6 +31,8 @@ jobs:
 
       - name: Build
         run: npm run build -- --mode production
+        env:
+          VITE_APP_BASE_URL: /diri-sesion5-comida/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
